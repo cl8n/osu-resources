@@ -74,7 +74,8 @@ void main(void)
     lowp vec4 blue = wrappedTexture(m_BlueTexture, m_BlueSampler, adjustedCoord, g_BlueTexRect, WRAP_CLAMP_TO_EDGE);
 
     // Mix orange and blue together
-    lowp vec4 base = mix(orange, blue, g_OrangeToBlueLerp);
+    // lowp vec4 base = mix(orange, blue, g_OrangeToBlueLerp);
+    lowp vec4 base = blue;
 
     // Take sample of the "opacity" texture (green and blue channel of
     // effects) with the adjusted coordinate. Despite what it was named, the
@@ -84,7 +85,7 @@ void main(void)
     // Adjust alpha using the base green channel and the alpha factor
     opacity.a *= clamp((base.g * 0.5 - 0.5 + g_AlphaFactor) / 0.1, 0, 1);
 
-    o_Colour = base * opacity * v_Colour;
+    o_Colour = opacity * wrappedTexture(m_OrangeTexture, m_OrangeSampler, v_TexCoord, g_OrangeTexRect, WRAP_CLAMP_TO_EDGE);
 }
 
 #endif
